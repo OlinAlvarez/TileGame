@@ -1,10 +1,4 @@
 
-function Tile(type,x,y){
-	this.type = type;
-	this.x = x;
-	this.y = y;
-}
-
 function Monster(name,hp,atkOne,atkTwo,atkOnePow, atkTwoPow,x,y){
 	this.name = name;
 	this.hp = hp;
@@ -14,13 +8,15 @@ function Monster(name,hp,atkOne,atkTwo,atkOnePow, atkTwoPow,x,y){
 	this.atkTwoPow =atkTwoPow;
 	this.x = x;
 	this.y = y;
+	this.type = "monster";
 }
 
-function Prize(type){
-	this.type = type;
+function Prize(effect){
+	this.effect = effect;
+	this.type = "prize";
 }
 
-var Hero = {
+var hero = {
 	name : "Olin",
 	attack : "Sword Slash",
 	power : 15,
@@ -45,14 +41,6 @@ var Hero = {
 	x:0,
 	y:0
 }
-var testMonster = new Monster("test",120,"atk1","atk2",20,20,2,3);
-var testPrize = new Prize("hp raise");
-
-console.log(testMonster);
-
-Hero.prizes.push(testPrize);
-console.log(Hero);
-
 var grid = generateGrid();
 
 function generateGrid(){
@@ -62,12 +50,13 @@ function generateGrid(){
     var monsterCounter = 0;
     var prizeCounter = 0;
     var random = 0;
+ 
     for(var i =0; i < 8; i++){
         temp = [];
         for(var j = 0; j < 8 ; j++){
             random = Math.floor(Math.random() * 2);
-	    console.log(random);
-	    if(random === 0 && monsterCounter < 4){
+	    
+	   if(random === 0 && monsterCounter < 4){
 		if(monsterCounter == 0){
 		    temp.push(new Monster("Dragon",120,"Fire Breath","Tail Slap",30,15,i,j));
 		    monsterCounter++;
@@ -99,7 +88,7 @@ function generateGrid(){
 		  prizeCounter++;
             }
 	    else{
-	   	temp.push(new Tile("blank",i,j));
+	   	temp.push("blank");
 	    }
 	   
 	}
@@ -109,28 +98,37 @@ function generateGrid(){
 
   return grid;       
 }
-function moveHero(x,y){
-	console.log("Accessed movehero fxn");
-	if(Hero.x + x < 8 && Hero.y + y < 7 && Hero.x + x >= 0 &&  Hero.y + y >= 0){
+function movehero(x,y){
+	if(hero.x + x < 8 && hero.y + y < 7 && hero.x + x >= 0 &&  hero.y + y >= 0){
 
-		Hero.x += x;
-		Hero.y += y;
+		hero.x += x;
+		hero.y += y;
 		//drawBoard();
 	}
 	else{
 		alert("Error invalid move");
 	}
-	console.log(Hero);
-	//evaluation function
+
+	//evaluation function needs be
 }
 
 function checkStatus(x,y){
 	if(grid[x][y].type === "monster"){
-		grid[x][y].battle();
+		battle(grid[x][y]);
 	}
 	else if(grid[x][y].type === "prize"){
-		Hero.prizes.push([x][y]);
+		hero.prizes.push([x][y]);
 	}
+	else if(grid[x][y].type === "win"){
+		alert("YOU WIN");
+	}
+}
+function battle(monster){
+	document.clear();
+	while(monster.hp >0 && hero.hp >0){
+		
+	}	
+
 }
 
 console.log(grid);
