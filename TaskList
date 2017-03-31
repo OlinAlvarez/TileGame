@@ -1,9 +1,10 @@
 Things still needed to finish Homework 3.
 
 Gameplay needs:
-Move the character
+Need to create the attack visual board.
+General idea is how have a pokemon style attack board.
+
 Make the power ups functional
-the combat needs to be functional
 make sure that each attack has a certain possibility of missing.
 
 Strong attacks > 30 should have a 45% chance of missing
@@ -13,3 +14,7 @@ Weak attacks < 15, should have only a 3% chance of missing.
 Display needs:
 need to figure out a design for the grid.
 Need to clear the page for monster battles.
+possibly just take the attack grid idea from github
+find somefiles for pictures of monsters. 
+Maybe steal some from PokeMon lol.
+

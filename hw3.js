@@ -1,4 +1,10 @@
-
+var directionalButtonsString ="<div id=\"buttonField\">"
+   + " <button type=\"button\" id=\"NW\" onClick = moveHero(-1,-1) >Northwest</button>"
+   + " <button type=\"button\" id=\"NE\" onClick = \"moveHero(-1,1)\" >NorthEast</button>"
+   + " <button type=\"button\" id=\"SW\" onClick = \"moveHero(1,-1)\" >Southwest</button>"
+   + " <button type=\"button\" id=\"SE\" onClick = \"moveHero(1,1)\" >Southeast</button>"
+   + " <button type=\"button\" id=\"DW\" onClick = \"moveHero(-1,0)\" >Due West</button>"
+   + " <button type=\"button\" id=\"DE\" onClick = \"moveHero(1,0)\" >Due East</button> </div>"
 function Monster(name,hp,atkOne,atkTwo,atkOnePow, atkTwoPow,x,y){
 	this.name = name;
 	this.hp = hp;
@@ -116,19 +122,26 @@ function checkStatus(x,y){
 	if(grid[x][y].type === "monster"){
 		battle(grid[x][y]);
 	}
-	else if(grid[x][y].type === "prize"){
+ 	else if(grid[x][y].type === "prize"){
 		hero.prizes.push([x][y]);
 	}
-	else if(grid[x][y].type === "win"){
+ 	else if(grid[x][y].type === "win"){
 		alert("YOU WIN");
 	}
 }
+var monster = new Monster("test",50,"atk1","atk2",20,20,1,2);
+battle(monster);
 function battle(monster){
 	document.clear();
-	while(monster.hp >0 && hero.hp >0){
-		
+    var buttons = document.getElementById("buttonField");	
+    buttons.innerHTML = "";
+    while(monster.hp >0 && hero.hp >0){
+        console.log("monster attacks");
+        hero.hp -= monster.atkOnePow;
+        console.log(hero.hp);
+        
 	}	
-
+    buttons.innerHTML = directionalButtonsString; 
 }
 
 console.log(grid);
