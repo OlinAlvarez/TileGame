@@ -1,10 +1,13 @@
 var directionalButtonsString ="<div id=\"buttonField\">"
-   + " <button type=\"button\" id=\"NW\" onClick = moveHero(-1,-1) >Northwest</button>"
+   + " <button type=\"button\" id=\"NW\" onClick = \"moveHero(-1,-1)\" >Northwest</button>"
    + " <button type=\"button\" id=\"NE\" onClick = \"moveHero(-1,1)\" >NorthEast</button>"
    + " <button type=\"button\" id=\"SW\" onClick = \"moveHero(1,-1)\" >Southwest</button>"
    + " <button type=\"button\" id=\"SE\" onClick = \"moveHero(1,1)\" >Southeast</button>"
    + " <button type=\"button\" id=\"DW\" onClick = \"moveHero(-1,0)\" >Due West</button>"
-   + " <button type=\"button\" id=\"DE\" onClick = \"moveHero(1,0)\" >Due East</button> </div>"
+   + " <button type=\"button\" id=\"DE\" onClick = \"moveHero(1,0)\" >Due East</button> </div>";
+var combatButtonsString ="<button type=\"button\" id=\"Attack\">Attack</button>"
+                  +"<button type=\"button\" id=\"Run\">Run</button>";
+console.log(combatButtonsString);
 function Monster(name,hp,atkOne,atkTwo,atkOnePow, atkTwoPow,x,y){
 	this.name = name;
 	this.hp = hp;
@@ -104,7 +107,7 @@ function generateGrid(){
 
   return grid;       
 }
-function movehero(x,y){
+function moveHero(x,y){
 	if(hero.x + x < 8 && hero.y + y < 7 && hero.x + x >= 0 &&  hero.y + y >= 0){
 
 		hero.x += x;
@@ -131,18 +134,67 @@ function checkStatus(x,y){
 }
 var monster = new Monster("test",50,"atk1","atk2",20,20,1,2);
 battle(monster);
-function battle(monster){
-	document.clear();
-    var buttons = document.getElementById("buttonField");	
-    buttons.innerHTML = "";
-    while(monster.hp >0 && hero.hp >0){
-        console.log("monster attacks");
-        hero.hp -= monster.atkOnePow;
-        console.log(hero.hp);
-        
-	}	
-    buttons.innerHTML = directionalButtonsString; 
-}
 
+function battle(monster){
+    //alert("battle beginning");
+    var buttons = document.getElementById("buttonField");
+    buttons.innerHTML = combatButtonsString;
+    
+    var attackButton = document.getElementById("Attack");
+    attackButton.addEventListener(onclick, fight());
+    
+    var runButton = document.getElementById("Run");
+    runButton.addEventListener(onclick,flee());
+    
+    var die;
+
+}
+function fight(){
+    die = probability(3);
+    if(die != 6){
+        monster.hp -= hero.power;
+        console.log(monster.hp);
+    }
+    if(monster.hp < 1){
+        alert("You defeated " + monster.name);
+        document.clear();
+        buttons.innerHTML = directionalButtonsString;
+    }
+        monsterAttack();
+}
+function flee(){
+        die =  probability(3)
+        if(die != 2){
+            alert("Got away successfully");
+            buttons.innerHTML = directionalButtonsString;
+        }else{
+            alert("Escape failed");
+            monsterAttack();
+        }
+}
+function monsterAttack(){
+    var coin =probability(2);
+    die = probability(8);
+        if(die != 3){
+            if(coin == 1){
+                    hero.hp -= monster.atkOnePow;
+                    alert(monster.name+" inflicted " + monster.atkOnePow + " damage"); 
+                    battle(monster);
+            }else{
+                    hero.hp -= monster.atkTwoPow;
+                    alert(monster.name+" inflicted " + monster.atkTwoPow + " damage"); 
+                    battle(monster);
+            }
+        }else{
+            alert(monster.name+"\'s attack missed!");    
+        }
+    if(hero.hp < 1){
+        alert("You're dead!");
+        document.reload();
+    }
+ }
+function probability(index){ 
+    return Math.floor(Math.random() * index);
+}
 console.log(grid);
 
