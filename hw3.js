@@ -21,6 +21,13 @@ function Prize(effect){
     this.accessed = false;
 }
 
+function temp(){
+    if(hero.name === "Olin"){
+        alert("Olin is your hero");
+    }    
+    else
+        alert(hero.name);
+}
 
 var hero = {
 	name : "Olin",
